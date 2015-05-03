@@ -7,7 +7,7 @@ require 'rspec'
 require 'webmock/rspec'
 
 require 'fluent/test'
-require 'fluent/plugin/ec2meta_injection_filter'
+require 'fluent/plugin/filter_ec2meta_injection'
 
 # Disable Test::Unit
 module Test::Unit::RunCount; def run(*); end; end
