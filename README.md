@@ -1,6 +1,8 @@
 # Ec2meta Injection Filter for [Fluent](http://github.com/fluent/fluentd)
 
 [![Build Status](https://travis-ci.org/hirakiuc/fluent-plugin-ec2meta-injection-filter.svg?branch=master)](https://travis-ci.org/hirakiuc/fluent-plugin-ec2meta-injection-filter)
+[![Coverage Status](https://coveralls.io/repos/hirakiuc/fluent-plugin-ec2meta-injection-filter/badge.svg?branch=master)](https://coveralls.io/r/hirakiuc/fluent-plugin-ec2meta-injection-filter?branch=master)
+[![Code Climate](https://codeclimate.com/github/hirakiuc/fluent-plugin-ec2meta-injection-filter/badges/gpa.svg)](https://codeclimate.com/github/hirakiuc/fluent-plugin-ec2meta-injection-filter)
 
 Ec2meta Injection filter plugin inject AWS EC2 metadata to each events.
 
