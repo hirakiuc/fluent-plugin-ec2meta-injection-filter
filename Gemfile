@@ -4,3 +4,13 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'ec2_meta', git: 'https://github.com/leonis/ec2_meta.git'
+
+group :development, :test do
+  gem 'pry-byebug'
+  gem 'gem-release'
+end
+
+group :test do
+  gem 'coveralls', require: false
+  gem 'codeclimate-test-reporter', require: false
+end
