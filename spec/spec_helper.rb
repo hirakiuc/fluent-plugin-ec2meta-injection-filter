@@ -12,7 +12,7 @@ if ENV['COVERAGE']
   Coveralls.wear!
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    Simplecov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::HTMLFormatter,
     Coveralls::SimpleCov::Formatter
   ]
   SimpleCov.start do
