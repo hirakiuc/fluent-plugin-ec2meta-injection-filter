@@ -1,10 +1,16 @@
-# Fluent::Plugin::Ec2meta::Injection::Filter
+# Ec2meta Injection Filter for [Fluent](http://github.com/fluent/fluentd)
 
 [![Build Status](https://travis-ci.org/hirakiuc/fluent-plugin-ec2meta-injection-filter.svg?branch=master)](https://travis-ci.org/hirakiuc/fluent-plugin-ec2meta-injection-filter)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fluent/plugin/ec2meta/injection/filter`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ec2meta Injection filter plugin inject AWS EC2 metadata to each events.
 
-TODO: Delete this and the text above, and describe your gem
+### WARNING
+
+**This plugin works on only AWS EC2 instance.**
+
+[AWS metadata API](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) can available only from AWS EC2 instance. So if you use this plugin with `Dynamic Configuration` on a host which not AWS EC2 instance, this plugin will raise Timeout error.
+
+If you want to use this plugin on a host which is not  AWS EC2 instance, use `Static Configuration`
 
 ## Installation
 
@@ -14,23 +20,71 @@ Add this line to your application's Gemfile:
 gem 'fluent-plugin-ec2meta-injection-filter'
 ```
 
-And then execute:
+NOTE: This plugin is not published yet.
 
-    $ bundle
+## Configuration
 
-Or install it yourself as:
+### Dynamic Configuration
 
-    $ gem install fluent-plugin-ec2meta-injection-filter
+If you want to inject metadata from [AWS metadata API](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html), configure like below.
 
-## Usage
+```
+<filter pattern>
+  type ec2meta_injection
 
-TODO: Write usage instructions here
+  <meta>
+    instance_id
+    vpc_id
+  </meta>
+</filter>
+```
 
-## Development
+With this configuration, this plugin inject `instance_id` and `vpc_id`.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+Input:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+debug.test: { "event" : "triggered" }
+```
+
+Output:
+
+```
+debug.test: { "event" : "triggered", "instance_id" : "id-xxxx", "vpc_id" : "vpc-yyyy" }
+```
+
+### Static Configuration
+
+If you want to inject metadata with static value, configure like below.
+
+```
+<filter pattern>
+  type ec2meta_injection
+
+  <meta>
+    vpc_id static_my_vpc_id
+  </meta>
+</filter>
+```
+
+Input:
+
+```
+debug.test: { "event" : "triggered" }
+```
+
+Output:
+
+```
+debug.test: { "event" : "triggered", "vpc_id" : "static_my_vpc_id" }
+```
+
+## Supported Metadata
+
+Name | description
+-----|--------------
+instance_id | instance id for AWS EC2 instance.
+vpc_id      | vpc id which first network interface belongs to
 
 ## Contributing
 
@@ -39,3 +93,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## License
+
+MIT
